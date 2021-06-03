@@ -85,9 +85,9 @@ function PhotoGallery(props) {
         setCurImgIdx(index) //record index to states
     }
 
+    //when props changes, update states.
     useEffect(() => {
-        setImages(props.images)
-        setImages(props.images)
+        setImages(props.images);
     }, [props.images])
 
     return (

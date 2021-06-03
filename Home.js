@@ -5,7 +5,7 @@ import axios from "axios";
 import SearchBar from "./SearchBar";
 import PhotoGallery from "./PhotoGallery";
 import { SEARCH_KEY, BASE_URL, TOKEN_KEY } from "../constants";
-
+import CreatePostButton from "./CreatePostButton";
 
 const { TabPane } = Tabs;
 
@@ -88,15 +88,46 @@ function Home(props) {
             console.log("images -> ", posts);
             return <PhotoGallery images={imageArr} />;
         } else if (type === "video") {
-            console.log("video -> ", posts);
-            return "videos";
+            return (
+                <Row gutter={32}>
+                    {posts
+                        .filter((post) => post.type === "video")
+                        .map((post) => (
+                            <Col span={8} key={post.url}>
+                                <video src={post.url} controls={true} className="video-block" />
+                                <p>
+                                    {post.user}: {post.message}
+                                </p>
+                            </Col>
+                        ))}
+                </Row>
+            );
+
         }
     };
 
-    const operations = <Button>Upload</Button>;
+
+    const handleSearch = (option) => {
+        const { type, keyword } = option;
+        setSearchOption({ type: type, keyword: keyword });
+    };
+
+    //显示拿到的数据 type: image/video
+    //用settimeout when there is no notification
+    const showPost = (type) => {
+        console.log("type -> ", type);
+        setActiveTab(type);
+
+        setTimeout(() => {
+            setSearchOption({ type: SEARCH_KEY.all, keyword: "" });
+        }, 3000);
+    };
+
+    const operations = <CreatePostButton onShowPost={showPost} />;
+
     return (
         <div className="home">
-            <SearchBar />
+            <SearchBar handleSearch={handleSearch} />
             <div className="display">
                 <Tabs
                     onChange={(key) => setActiveTab(key)}

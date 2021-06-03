@@ -12,8 +12,18 @@ function SearchBar(props) {
 
     const changeSearchType = (e) => {
         const searchType = e.target.value;
+        //case1 type = all -> value: ""
+        //case2 type == keyword/user -> value: inputvalue => handle search
+        if (searchType ===SEARCH_KEY.all) {
+            //send search type to home, parent to home
+            //fetch all posts
+            props.handleSearch({
+                type: SEARCH_KEY.all,
+                value: ""
+            })
+        }
         setSearchType(searchType);
-        setError("");
+        setError(""); //set error with null
     };
 
     //handle search error
@@ -25,6 +35,9 @@ function SearchBar(props) {
         }
         //case2: clear error msg
         setError("");
+        //case3:searchtype = keyword/user && value != null
+        //send to Home
+        props.handleSearch({ type: searchType, keyword: value });
     };
 
     return (

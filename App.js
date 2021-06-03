@@ -34,11 +34,15 @@ function App() {
   };
   return (
       <div className="App">
-        <TopBar isLoggedIn={isLoggedIn} handleLogout={logout} />
-        <Main />
+        <TopBar isLoggedIn={isLoggedIn}
+                handleLogout={logout} />
+        <Main
+            isLoggedIn = {isLoggedIn}
+            handleLoggedIn = {loggedIn}/>
       </div>
   );
 }
+//handeloggedin is callback func.
 
 export default App;
 
